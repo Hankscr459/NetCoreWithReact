@@ -19,25 +19,6 @@ const App = () => {
   const [submitting, setSubmitting] = useState(false)
   const [target, setTarget] = useState('')
 
-  const handleSelectActivity = (id: string) => {
-    setSelectedActivity(activities.filter(a => a.id === id)[0])
-    setEditMode(false)
-  }
-
-  const handleOpenCreateForm = () => {
-    setSelectedActivity(null)
-    setEditMode(true)
-  }
-
-  const handleCreateActivity = (activity: IActivity) => {
-    setSubmitting(true)
-    agent.Activities.create(activity).then(() => {
-    setActivities([...activities, activity])
-    setSelectedActivity(activity)
-    setEditMode(false)
-    }).then(() => setSubmitting(false))
-  }
-
   const handleEditActivity = (activity: IActivity) => {
     setSubmitting(true)
     agent.Activities.update(activity).then(() => {
@@ -63,14 +44,12 @@ const App = () => {
 
   return (
     <>
-      <NavBar OpenCreateForm={handleOpenCreateForm} />
+      <NavBar />
       <Container style={{marginTop: '7em'}}>
         <ActivityDashboard 
           activities={activityStore.activities} 
-          selectActivity={handleSelectActivity} 
           setEditMode={setEditMode}
           setSelectedActivity={setSelectedActivity}
-          createActivity={handleCreateActivity}
           editActivity={handleEditActivity}
           deleteActivity={handleDeleteActivity}
           submitting={submitting}
