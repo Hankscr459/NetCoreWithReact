@@ -1,23 +1,44 @@
 import { observable, action, computed, configure, runInAction } from 'mobx'
 import { createContext, SyntheticEvent } from 'react'
 import agent from '../../api/agent'
-import { IActivity } from '../models/activity'
+import { IActivity } from '../models/activity';
 
 configure({enforceActions: 'always'})
 
 class ActivityStore {
     @observable activityRegistry = new Map()
-    // @observable activities: IActivity[] = []
     @observable activity: IActivity | null = null
     @observable loadingInitial = false
-    // @observable editMode = false
     @observable submitting = false
     @observable target = ''
 
     @computed get activitiesByDate() {
-        return Array.from(this.activityRegistry.values()).sort(
+        return this.groupActivitiesByDate(Array.from(this.activityRegistry.values()))
+    }
+
+    groupActivitiesByDate(activities: IActivity[]) {
+        const sortedActivities = activities.sort(
             (a,b) => Date.parse(a.date) - Date.parse(b.date)
         )
+        console.log("sorted activities")
+        console.log(sortedActivities)
+        
+        // let i = 0
+        return Object.entries(sortedActivities.reduce((activities, activity) => {
+            // i++
+            const date = activity.date.split('T')[0]
+
+            // console.log("activities " + i)
+            // console.log(activities)
+            // console.log("activity " + i)
+            // console.log(activity)
+ 
+            activities[date] = activities[date] ? [...activities[date], activity] : [activity]
+
+            // console.log("activities[date] " + i)
+            // console.log(activities[date])
+            return activities
+        }, {} as {[key: string]: IActivity[]}))
     }
 
     @action loadActivities = async () => {
@@ -32,6 +53,7 @@ class ActivityStore {
                 })
                 this.loadingInitial = false
             })
+            console.log(this.groupActivitiesByDate(activities))
         } catch (error) {
             runInAction('loading activities error', () => {
                 this.loadingInitial = false
