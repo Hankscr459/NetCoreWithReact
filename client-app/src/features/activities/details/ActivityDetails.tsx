@@ -14,8 +14,7 @@ interface DetailParams {
   }
 
 const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
-    match,
-    history
+    match
 }) => {
     const activityStore = useContext(ActivityStore)
     const { 
@@ -34,7 +33,7 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
     return (
         <Grid>
             <Grid.Column width={10}>
-                <ActivityDetailedHeader />
+                <ActivityDetailedHeader activity={activity} />
                 <ActivityDetailedInfo />
                 <ActivityDetailedChat />
             </Grid.Column>
@@ -46,3 +45,33 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
 }
 
 export default observer(ActivityDetails)
+
+/* <Card fluid>
+    <Image src={`/assets/categoryImages/${activity!.category}.jpg`} wrapped ui={false} />
+    <Card.Content>
+    <Card.Header>{activity!.title}</Card.Header>
+    <Card.Meta>
+        <span>{activity!.date}</span>
+    </Card.Meta>
+    <Card.Description>
+        {activity!.description}
+    </Card.Description>
+    </Card.Content>
+    <Card.Content extra>
+        <Button.Group widths={2}>
+            <Button 
+                as={Link} to={`/manage/${activity.id}`}
+                onClick={() => openEditForm(activity!.id)} 
+                basic 
+                color='blue' 
+                content='Edit' 
+            />
+            <Button 
+                onClick={() => history.push('/activities')} 
+                basic 
+                color='grey' 
+                content='Cancel' 
+            />
+        </Button.Group>
+    </Card.Content>
+</Card> */
