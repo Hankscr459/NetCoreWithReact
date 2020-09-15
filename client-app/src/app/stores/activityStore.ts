@@ -20,8 +20,8 @@ class ActivityStore {
         const sortedActivities = activities.sort(
             (a,b) => Date.parse(a.date) - Date.parse(b.date)
         )
-        console.log("sorted activities")
-        console.log(sortedActivities)
+        // console.log("sorted activities")
+        // console.log(sortedActivities)
         
         // let i = 0
         return Object.entries(sortedActivities.reduce((activities, activity) => {
@@ -53,7 +53,7 @@ class ActivityStore {
                 })
                 this.loadingInitial = false
             })
-            console.log(this.groupActivitiesByDate(activities))
+            // console.log(this.groupActivitiesByDate(activities))
         } catch (error) {
             runInAction('loading activities error', () => {
                 this.loadingInitial = false
