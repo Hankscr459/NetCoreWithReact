@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { Button, Card, Image } from 'semantic-ui-react'
 import ActivityStore from '../../../app/stores/activityStore'
 import { observer } from 'mobx-react-lite'
-import { RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps, Link } from 'react-router-dom';
 import LoadingComponent from '../../../app/layout/LoadingComponent'
 
 interface DetailParams {
@@ -16,15 +16,14 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
     const activityStore = useContext(ActivityStore)
     const { 
         activity, 
-        openEditForm, 
-        cancelSelectedActivity,
+        openEditForm,
         loadActivity,
         loadingInitial
     } = activityStore
 
     useEffect(() => {
         loadActivity(match.params.id)
-    }, [loadActivity])
+    }, [loadActivity, match.params.id])
 
     if (loadingInitial || !activity) return <LoadingComponent content='Loading activity error...' />
     
@@ -43,6 +42,7 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
             <Card.Content extra>
                 <Button.Group widths={2}>
                     <Button 
+                        as={Link} to={`/manage/${activity.id}`}
                         onClick={() => openEditForm(activity!.id)} 
                         basic 
                         color='blue' 
