@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
+import { toast } from 'react-toastify';
 import { history } from '..';
 import { IActivity } from '../app/models/activity';
 
@@ -12,7 +13,9 @@ axios.interceptors.response.use(undefined, error => {
     if (status === 400 && config.method === 'get' && data.errors.hasOwnProperty('id')) {
         history.push('/notfound')
     }
-    console.log(error.response)
+    if (status === 500) {
+        toast.error('Server error - check the terminal for more info!')
+    }
 })
 
 const responseBody = (response: AxiosResponse) => response.data
