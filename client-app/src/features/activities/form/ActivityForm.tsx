@@ -65,7 +65,15 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
         const dateAndTime = combineDateAndTime(values.date, values.time)
         const { date, time, ...activity } = values
         activity.date = dateAndTime
-        console.log(activity)
+        if(!activity.id) {
+            let newActivity = {
+                ...activity,
+                id: uuid()
+            }
+            createActivity(newActivity)
+        } else {
+            editActivity(activity)
+        }
     }
 
     // const handleInputChange = (event: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -138,7 +146,8 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                                 content='Submit' 
                             />
                             <Button 
-                                onClick={() => history.push('/activities')} 
+                                onClick={activity.id ? 
+                                    () => history.push(`/activities/${activity.id}`) : () => history.push('/activities')} 
                                 floated='right' 
                                 type='button' 
                                 content='Cancel' 
