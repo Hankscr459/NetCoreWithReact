@@ -27,7 +27,7 @@ class ActivityStore {
         // let i = 0
         return Object.entries(sortedActivities.reduce((activities, activity) => {
             // i++
-            const date = activity.date!.toISOString().split('T')[0]
+            const date = activity.date.toISOString().split('T')[0]
 
             // console.log("activities " + i)
             // console.log(activities)
@@ -49,7 +49,7 @@ class ActivityStore {
             const activities = await agent.Activities.list()
             runInAction('loading activities', () => {
                 activities.forEach((activity) => {
-                    activity.date = new Date(activity.date!)
+                    activity.date = new Date(activity.date)
                     this.activityRegistry.set(activity.id, activity)
                 })
                 this.loadingInitial = false
