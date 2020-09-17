@@ -1,6 +1,5 @@
 import { observable, action, computed, configure, runInAction } from 'mobx'
 import { createContext, SyntheticEvent } from 'react'
-import { act } from 'react-dom/test-utils';
 import agent from '../../api/agent'
 import { IActivity } from '../models/activity';
 
@@ -67,6 +66,7 @@ class ActivityStore {
         let activity = this.getActivity(id)
         if (activity) {
             this.activity = activity
+            return activity
         } else {
             this.loadingInitial = true
             try {
@@ -76,6 +76,7 @@ class ActivityStore {
                     this.activity = activity
                     this.loadingInitial =false
                 })
+                return activity
             } catch (error) {
                 runInAction('get activity error', () => {
                     this.loadingInitial = false
