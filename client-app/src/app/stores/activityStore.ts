@@ -3,6 +3,7 @@ import { createContext, SyntheticEvent } from 'react'
 import agent from '../../api/agent'
 import { IActivity } from '../models/activity';
 import { history } from '../../index';
+import { toast } from 'react-toastify';
 
 configure({enforceActions: 'always'})
 
@@ -108,14 +109,15 @@ class ActivityStore {
             runInAction('create activity error', () => {
                 this.submitting = false
             })
-            console.log(error)
+            toast.error('Problem submitting data')
+            console.log(error.response)
         }
     }
 
     @action editActivity = async (activity: IActivity) => {
         this.submitting = true
         try {
-            agent.Activities.update(activity)
+            await agent.Activities.update(activity)
             runInAction( 'editing activity', () => {
                 this.activityRegistry.set(activity.id, activity)
                 this.activity = activity
@@ -126,7 +128,9 @@ class ActivityStore {
             runInAction( 'edit activity error', () => {
                 this.submitting = false
             })
-            console.log(error)
+            toast.error('Problem submitting data')
+            console.log(error.response)
+            console.log(typeof error)
         }
     }
 
