@@ -1,5 +1,6 @@
 import { observable, action, computed, configure, runInAction } from 'mobx'
 import { createContext, SyntheticEvent } from 'react'
+import { act } from 'react-dom/test-utils';
 import agent from '../../api/agent'
 import { IActivity } from '../models/activity';
 
@@ -18,7 +19,7 @@ class ActivityStore {
 
     groupActivitiesByDate(activities: IActivity[]) {
         const sortedActivities = activities.sort(
-            (a,b) => Date.parse(a.date) - Date.parse(b.date)
+            (a,b) => a.date!.getTime() - b.date!.getTime()
         )
         // console.log("sorted activities")
         // console.log(sortedActivities)
@@ -26,7 +27,7 @@ class ActivityStore {
         // let i = 0
         return Object.entries(sortedActivities.reduce((activities, activity) => {
             // i++
-            const date = activity.date.split('T')[0]
+            const date = activity.date!.toISOString().split('T')[0]
 
             // console.log("activities " + i)
             // console.log(activities)
@@ -48,7 +49,7 @@ class ActivityStore {
             const activities = await agent.Activities.list()
             runInAction('loading activities', () => {
                 activities.forEach((activity) => {
-                    activity.date =activity.date.split('.')[0]
+                    activity.date = new Date(activity.date!)
                     this.activityRegistry.set(activity.id, activity)
                 })
                 this.loadingInitial = false
@@ -71,6 +72,7 @@ class ActivityStore {
             try {
                 activity = await agent.Activities.details(id)
                 runInAction('getting activity', () => {
+                    activity.date = new Date(activity.date)
                     this.activity = activity
                     this.loadingInitial =false
                 })
