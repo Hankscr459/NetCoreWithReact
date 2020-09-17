@@ -71,10 +71,10 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
         console.log(values)
     }
 
-    const handleInputChange = (event: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = event.currentTarget
-        setActivity({...activity, [name]: value})
-    }
+    // const handleInputChange = (event: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    //     const { name, value } = event.currentTarget
+    //     setActivity({...activity, [name]: value})
+    // }
 
     return (
         <Grid>
@@ -90,37 +90,35 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                                 value={activity.title} 
                                 component={TextInput}
                             />
-                            <Form.TextArea 
-                                onChange={handleInputChange} 
+                            <Field
                                 name='description'
-                                row={2} 
                                 placeholder='Description' 
                                 value={activity.description} 
+                                component={TextInput}
                             />
-                            <Form.Input 
-                                onChange={handleInputChange} 
+                            <Field
                                 name='category'
                                 placeholder='Category' 
                                 value={activity.category} 
+                                component={TextInput}
                             />
-                            <Form.Input 
-                                onChange={handleInputChange} 
-                                name='date'
-                                type='datetime-local' 
+                            <Field
+                                name='date' 
                                 placeholder='Date' 
                                 value={activity.date} 
+                                component={TextInput}
                             />
-                            <Form.Input 
-                                onChange={handleInputChange} 
+                            <Field 
                                 name='city'
                                 placeholder='City' 
                                 value={activity.city} 
+                                component={TextInput}
                             />
-                            <Form.Input 
-                                onChange={handleInputChange} 
+                            <Field 
                                 name='venue'
                                 placeholder='Venue' 
                                 value={activity.venue} 
+                                component={TextInput}
                             />
                             <Button 
                                 loading={submitting}
