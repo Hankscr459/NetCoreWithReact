@@ -33,8 +33,8 @@ namespace Application.User
             private readonly SignInManager<AppUser> _signInManager;
             public Hander(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
             {
-                this._signInManager = signInManager;
-                this._userManager = userManager;
+                _signInManager = signInManager;
+                _userManager = userManager;
 
             }
 
