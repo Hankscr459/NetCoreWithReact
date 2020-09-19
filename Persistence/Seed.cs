@@ -17,25 +17,25 @@ namespace Persistence
                 {
                     new AppUser
                     {
-                        DisPlayName = "Hank",
+                        DisplayName = "Hank",
                         UserName = "Hank",
                         Email = "hank@gmail.com"
                     },
                     new AppUser
                     {
-                        DisPlayName = "black",
+                        DisplayName = "black",
                         UserName = "black",
                         Email = "black123@gmail.com"
                     },
                     new AppUser
                     {
-                        DisPlayName = "green",
+                        DisplayName = "green",
                         UserName = "green",
                         Email = "green123@gmail.com"
                     },
                     new AppUser
                     {
-                        DisPlayName = "blue",
+                        DisplayName = "blue",
                         UserName = "blue",
                         Email = "blue123@gmail.com"
                     }

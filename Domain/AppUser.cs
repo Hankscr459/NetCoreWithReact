@@ -4,6 +4,6 @@ namespace Domain
 {
     public class AppUser : IdentityUser
     {
-        public string DisPlayName { get; set; }
+        public string DisplayName { get; set; }
     }
 }
