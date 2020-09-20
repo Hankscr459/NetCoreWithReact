@@ -65,7 +65,6 @@ const RegisterForm = () => {
                     {submitError && !dirtySinceLastSubmit && (
                         <ErrorMessage
                             error={submitError}
-                            text={JSON.stringify(submitError.data.errors)}
                         />
                     )}
                     <br />
