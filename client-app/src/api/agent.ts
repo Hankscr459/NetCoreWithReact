@@ -1,10 +1,18 @@
 import axios, { AxiosResponse } from 'axios'
-import { toast } from 'react-toastify';
-import { history } from '..';
-import { IActivity } from '../app/models/activity';
-import { IUserFormValues, IUser } from '../app/models/user';
+import { toast } from 'react-toastify'
+import { history } from '..'
+import { IActivity } from '../app/models/activity'
+import { IUserFormValues, IUser } from '../app/models/user'
 
 axios.defaults.baseURL = 'http://localhost:5000/api'
+
+axios.interceptors.request.use((config) => {
+    const token = window.localStorage.getItem('jwt')
+    if (token) config.headers.Authorization = `Bearer ${token}`
+    return config
+}, error => {
+    return Promise.reject(error)
+})
 
 axios.interceptors.response.use(undefined, error => {
     if (error.message  === 'Network Error' && !error.response) {
@@ -22,7 +30,6 @@ axios.interceptors.response.use(undefined, error => {
     }
     throw error.response
 })
-
 
 const responseBody = (response: AxiosResponse) => response.data
 
