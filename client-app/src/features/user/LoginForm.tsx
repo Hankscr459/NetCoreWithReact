@@ -1,17 +1,35 @@
 import React, { useContext } from 'react'
 import { Field, Form as FinalForm } from 'react-final-form'
-import { Button, Form } from 'semantic-ui-react'
+import { Button, Form, Label } from 'semantic-ui-react'
 import TextInput from '../../app/common/form/TextInput'
-import { RootStoreContext } from '../../app/stores/rootStore';
-import { IUserFormValues } from '../../app/models/user';
+import { RootStoreContext } from '../../app/stores/rootStore'
+import { IUserFormValues } from '../../app/models/user'
+import { FORM_ERROR } from 'final-form'
+import { combineValidators, isRequired } from 'revalidate';
+
+const validate = combineValidators({
+    email: isRequired('email'),
+    password: isRequired('password')
+})
 
 const LoginForm = () => {
     const rootStore = useContext(RootStoreContext)
     const { login } = rootStore.userStore
     return (
         <FinalForm
-            onSubmit={(values: IUserFormValues) => login(values)}
-            render={({ handleSubmit }) => (
+            onSubmit={(values: IUserFormValues) => login(values).catch(error => ({
+                [FORM_ERROR]: error
+            }))}
+            validate={validate}
+            render={({ 
+                handleSubmit, 
+                submitting, 
+                form, 
+                submitError, 
+                invalid, 
+                pristine,
+                dirtySinceLastSubmit
+            }) => (
                 <Form onSubmit={handleSubmit}>
                     <Field 
                         name='email' 
@@ -24,7 +42,16 @@ const LoginForm = () => {
                         placeholder='Password' 
                         type='password' 
                     />
-                    <Button positive content='Login'/>
+                    {submitError && !dirtySinceLastSubmit && (
+                        <Label color='red' basic content={submitError.statusText} />)}
+                    <br />
+                    <Button 
+                        disabled={invalid && !dirtySinceLastSubmit || pristine}
+                        loading={submitting} 
+                        positive 
+                        content='Login'
+                    />
+                    <pre>{JSON.stringify(form.getState(), null, 2)}</pre>
                 </Form>
             )}
         />
