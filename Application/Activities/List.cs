@@ -14,10 +14,10 @@ namespace Application.Activities
     {
         public class Query : IRequest<List<Activity>> { }
 
-        public class Hander : IRequestHandler<Query, List<Activity>>
+        public class Handler : IRequestHandler<Query, List<Activity>>
         {
             private readonly DataContext _context;
-            public Hander(DataContext context)
+            public Handler(DataContext context)
             {
                 _context = context;
             }
