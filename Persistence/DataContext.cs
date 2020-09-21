@@ -23,15 +23,19 @@ namespace Persistence
                     new Value { Id = 2, Name = "Value 102" },
                     new Value { Id = 3, Name = "Value 103" }
                 );
-            builder.Entity<UserActivity>(x => x.HasKey(ua => new {ua.AppUserId, ua.ActivityId}));
+            builder.Entity<UserActivity>(
+                x => x.HasKey(ua => new {ua.AppUserId, ua.ActivityId})
+            );
+
             builder.Entity<UserActivity>()
-                .HasOne(u => u.AppUser)
-                .WithMany(a => a.UserActivities)
+                .HasOne(ua => ua.AppUser)
+                .WithMany(user => user.UserActivities)
                 .HasForeignKey(u => u.AppUserId);
+                
             builder.Entity<UserActivity>()
-                .HasOne(a => a.Activity)
-                .WithMany(u => u.UserActivities)
-                .HasForeignKey(a => a.AppUserId);
+                .HasOne(ua => ua.Activity)
+                .WithMany(activity => activity.UserActivities)
+                .HasForeignKey(ua => ua.ActivityId);
         }
     }
 }
