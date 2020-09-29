@@ -5,6 +5,7 @@ import { IActivity } from '../models/activity'
 import { history } from '../../index'
 import { toast } from 'react-toastify'
 import { RootStore } from './rootStore'
+import { setActivityProps } from '../common/utli/utli';
 
 export default class ActivityStore {
     rootStore: RootStore
@@ -49,12 +50,11 @@ export default class ActivityStore {
 
     @action loadActivities = async () => {
         this.loadingInitial =true
-        
         try {
             const activities = await agent.Activities.list()
             runInAction('loading activities', () => {
                 activities.forEach((activity) => {
-                    activity.date = new Date(activity.date)
+                    setActivityProps(activity, this.rootStore.userStore.user!)
                     this.activityRegistry.set(activity.id, activity)
                 })
                 this.loadingInitial = false
