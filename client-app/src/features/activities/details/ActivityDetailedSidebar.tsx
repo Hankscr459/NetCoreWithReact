@@ -9,7 +9,6 @@ interface IProps {
 }
 
 const ActivityDetailedSidebar: React.FC<IProps> = ({attendees}) => {
-    const isHost = false;
     return (
         <>
             <Segment
@@ -26,7 +25,7 @@ const ActivityDetailedSidebar: React.FC<IProps> = ({attendees}) => {
             <List relaxed divided>
                 {attendees.map((attendee) =>(
                     <Item key={attendee.username} style={{ position: 'relative' }}>
-                        {isHost && 
+                        {attendee.isHost && 
                         <Label
                             style={{ position: 'absolute' }}
                             color='orange'
@@ -43,26 +42,6 @@ const ActivityDetailedSidebar: React.FC<IProps> = ({attendees}) => {
                         </Item.Content>
                     </Item>
                 ))}
-                
-    
-                <Item style={{ position: 'relative' }}>
-                    <Image size='tiny' src={'/assets/user.png'} />
-                    <Item.Content verticalAlign='middle'>
-                        <Item.Header as='h3'>
-                        <Link to={`#`}>Tom</Link>
-                        </Item.Header>
-                        <Item.Extra style={{ color: 'orange' }}>Following</Item.Extra>
-                    </Item.Content>
-                </Item>
-    
-                <Item style={{ position: 'relative' }}>
-                <Image size='tiny' src={'/assets/user.png'} />
-                <Item.Content verticalAlign='middle'>
-                    <Item.Header as='h3'>
-                    <Link to={`#`}>Sally</Link>
-                    </Item.Header>
-                </Item.Content>
-                </Item>
             </List>
             </Segment>
         </>
