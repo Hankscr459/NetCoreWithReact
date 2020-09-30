@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Segment, Item, Header, Button, Image } from 'semantic-ui-react'
-import { IActivity } from '../../../app/models/activity';
-import { observer } from 'mobx-react-lite';
-import { Link } from 'react-router-dom';
+import { IActivity } from '../../../app/models/activity'
+import { observer } from 'mobx-react-lite'
+import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
+import { RootStoreContext } from '../../../app/stores/rootStore'
 
 const activityImageStyle = {
   filter: 'brightness(30%)'
@@ -18,7 +19,9 @@ const activityImageTextStyle = {
   color: 'white'
 };
 
-const activityDetailedHeader: React.FC<{activity: IActivity}> = ({activity}) => {
+const ActivityDetailedHeader: React.FC<{activity: IActivity}> = ({activity}) => {
+    const rootStore = useContext(RootStoreContext)
+    const { attendActivity, cancelAttendance } = rootStore.activityStore
     return (
         <Segment.Group>
             <Segment basic attached='top' style={{ padding: '0' }}>
@@ -52,14 +55,16 @@ const activityDetailedHeader: React.FC<{activity: IActivity}> = ({activity}) => 
                     Manage Event
                 </Button>
             ) : activity.isGoing ? (
-                <Button>Cancel attendance</Button>
+                <Button onClick={cancelAttendance}>Cancel attendance</Button>
             ) : (
-                <Button color='teal'>Join Activity</Button>
+                <Button onClick={attendActivity} color='teal'>Join Activity</Button>
             )}
-            
+            <Button as={Link} to={`/manage/${activity.id}`} color='orange' floated='right'>
+                Manage Event
+            </Button>
             </Segment>
         </Segment.Group>
     )
 }
 
-export default observer(activityDetailedHeader)
+export default observer(ActivityDetailedHeader)
