@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Button, Container, Menu, Image, Dropdown } from 'semantic-ui-react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { RootStoreContext } from '../../app/stores/rootStore';
 
 
@@ -32,8 +32,8 @@ const NavBar: React.FC = () => {
                         <Dropdown pointing='top left' text={user.displayName}>
                         <Dropdown.Menu>
                             <Dropdown.Item 
-                                // as={Link} 
-                                // to={`/profile/username`} 
+                                as={Link} 
+                                to={`/profile/${user.username}`} 
                                 text='My profile' 
                                 icon='user'
                             />
