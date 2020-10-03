@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { Button, Container, Menu, Image, Dropdown } from 'semantic-ui-react';
 import { NavLink, Link } from 'react-router-dom';
 import { RootStoreContext } from '../../app/stores/rootStore';
+import { observer } from 'mobx-react-lite';
 
 
 const NavBar: React.FC = () => {
@@ -47,5 +48,5 @@ const NavBar: React.FC = () => {
     )
 }
 
-export default NavBar;
+export default observer(NavBar);
 

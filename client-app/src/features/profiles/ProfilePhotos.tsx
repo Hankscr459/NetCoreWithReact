@@ -6,8 +6,15 @@ import { observer } from 'mobx-react-lite';
 
 const ProfilePhotos = () => {
     const rootStore = useContext(RootStoreContext)
-    const { profile, isCurrentUser, uploadPhoto, uploadingPhoto } = rootStore.profileStore
-    const [addPhotoMode, setAddPhotoMode] = useState(true)
+    const { 
+        profile, 
+        isCurrentUser, 
+        uploadPhoto, 
+        uploadingPhoto, 
+        setMainPhoto,
+        loading
+    } = rootStore.profileStore
+    const [addPhotoMode, setAddPhotoMode] = useState(false)
 
     const handleUploadImage = (photo: Blob) => {
         uploadPhoto(photo).then(() => setAddPhotoMode(false))
@@ -17,7 +24,11 @@ const ProfilePhotos = () => {
         <Tab.Pane>
             <Grid>
                 <Grid.Column width={16} style={{paddingBottom: 0}}>
-                    <Header floated='left' icon='image' content='photos' />
+                    <Header 
+                        floated='left' 
+                        icon='image' 
+                        content='photos' 
+                    />
                     {isCurrentUser && (
                         <Button 
                             floated='right' 
@@ -32,16 +43,23 @@ const ProfilePhotos = () => {
                         <PhotoUploadWidget uploadPhoto={handleUploadImage} loading={uploadingPhoto} />
                     ) : (
                         <Card.Group itemsPerRow={5} >
-                            {profile && profile.photos.map((photo) => (
-                                <Card key={photo.id}>
-                                    <Image src={photo.url} />
-                                    {isCurrentUser && (
-                                        <Button.Group fluid widths={2}>
-                                            <Button basic positive content='Main' />
-                                            <Button basic negative content='trash' />
-                                        </Button.Group>
-                                    )}
-                                </Card>
+                            {profile && 
+                                profile.photos.map((photo) => (
+                                    <Card key={photo.id}>
+                                        <Image src={photo.url} />
+                                        {isCurrentUser && (
+                                            <Button.Group fluid widths={2}>
+                                                <Button 
+                                                    onClick={() => setMainPhoto(photo)}
+                                                    loading={loading}
+                                                    basic 
+                                                    positive 
+                                                    content='Main' 
+                                                />
+                                                <Button basic negative content='trash' />
+                                            </Button.Group>
+                                        )}
+                                    </Card>
                             ))}
                         </Card.Group>
                     )}
