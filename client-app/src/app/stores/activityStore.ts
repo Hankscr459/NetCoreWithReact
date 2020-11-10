@@ -22,7 +22,7 @@ export default class ActivityStore {
     @observable loading = false
     @observable.ref hubConnection: HubConnection | null = null;
 
-    @action createHubConnect = () => {
+    @action createHubConnection = () => {
         this.hubConnection = new HubConnectionBuilder()
             .withUrl('http://localhost:5000/chat', {
                 accessTokenFactory: () => this.rootStore.commonStore.token!
@@ -41,6 +41,15 @@ export default class ActivityStore {
 
     @action stopHubConnection = () => {
         this.hubConnection!.stop()
+    }
+
+    @action addComment = async (values: any) => {
+        values.activityId = this.activity!.id
+        try {
+            await this.hubConnection!.invoke('SendComment', values)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     @computed get activitiesByDate() {
