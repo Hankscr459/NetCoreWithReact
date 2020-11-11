@@ -35,7 +35,9 @@ export default class ActivityStore {
             .catch(error => console.log('Error establishing connecting: ', error))
 
         this.hubConnection.on('ReceiveComment', comment => {
-            this.activity!.comments.push(comment)
+            runInAction(() => {
+                this.activity!.comments.push(comment)
+            })
         })
     }
 

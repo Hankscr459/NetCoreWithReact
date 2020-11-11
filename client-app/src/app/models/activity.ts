@@ -14,7 +14,7 @@ export interface IActivity {
 
 export interface IComment {
     id: string;
-    create: Date;
+    createdAt: Date;
     body: string;
     username: string;
     displayName: string;
