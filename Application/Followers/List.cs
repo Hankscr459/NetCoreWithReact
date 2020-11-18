@@ -44,21 +44,21 @@ namespace Application.Followers
 
                         foreach(var follower in userFollowings)
                         {
-                            profiles.Add(await _profileReader.ReadProfile
-                            (follower.Observer.UserName));
+                            profiles.Add(await _profileReader.ReadProfile(
+                                follower.Observer.UserName));
                         }
                         break;
                     }
 
-                    case "followering":
+                    case "following":
                     {
                         userFollowings = await queryable.Where(x =>
                             x.Observer.UserName == request.Username).ToListAsync();
                         
                         foreach(var follower in userFollowings)
                         {
-                            profiles.Add(await _profileReader.ReadProfile
-                            (follower.Target.UserName));
+                            profiles.Add(await _profileReader.ReadProfile(
+                                follower.Target.UserName));
                         }
                         break;
                     }
