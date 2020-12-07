@@ -109,7 +109,7 @@ export default class ActivityStore {
     }
 
     @action loadActivities = async () => {
-        this.loadingInitial =true
+        this.loadingInitial = true;
         try {
             const activitiesEnvelope = await agent.Activities.list(LIMIT, this.page)
             const { activities, activityCount } = activitiesEnvelope;
