@@ -4,6 +4,7 @@ import NavBar from '../../features/nav/NavBar'
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard'
 import { observer } from 'mobx-react-lite'
 import { Route, RouteComponentProps, Switch, withRouter } from 'react-router-dom'
+import PrivateRoute from './PrivateRoute'
 import HomePage from '../../features/home/HomePage'
 import ActivityForm from '../../features/activities/form/ActivityForm'
 import ActivityDetails from '../../features/activities/details/ActivityDetails'
@@ -42,15 +43,15 @@ const App: React.FC<RouteComponentProps> = ({location}) => {
             <NavBar />
             <Container style={{marginTop: '7em'}}>
               <Switch>
-                <Route exact path='/activities' component={ActivityDashboard} />
-                <Route path='/activities/:id' component={ActivityDetails} />
-                <Route 
+                <PrivateRoute exact path='/activities' component={ActivityDashboard} />
+                <PrivateRoute path='/activities/:id' component={ActivityDetails} />
+                <PrivateRoute
                   key={location.key} 
                   path={['/createActivity', '/manage/:id']} 
                   component={ActivityForm} 
                 />
-                <Route path='/profile/:username' component={ProfilePage} />
-                <Route component={NotFound} />
+                <PrivateRoute path='/profile/:username' component={ProfilePage} />
+                <PrivateRoute component={NotFound} />
               </Switch>
             </Container>
           </>
